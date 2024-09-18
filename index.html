@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE WEBPAGE</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('C:/Users/100078236/Downloads/cat.png');
+      background-color: #000; /* DONT TOUCH */
+      color: #fff;
+      font-family: 'Press Start 2P', cursive;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh; 
+      position: relative; 
+    }
+
+    .circle {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      mix-blend-mode: difference;
+      background: radial-gradient(circle at 18.7% 37.8%, rgb(250, 250, 250) 0%, rgb(225, 234, 238) 90%);
+      border-radius: 50%;
+      pointer-events: none;
+      transition: ease-out 0.17s;
+      z-index: 30; 
+    }
+
+    h1 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    p {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      z-index: 20; 
+      position: relative; 
+    }
+
+    input {
+      margin: 5px 0;
+      padding: 10px;
+      font-size: 16px; 
+      border: none;
+      border-radius: 5px;
+      width: 200px; 
+    }
+
+    canvas {
+      position: absolute; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent; 
+      z-index: 1; 
+    }
+
+    .image-link {
+      margin-top: 20px;
+      text-align: center;
+      z-index: 25; 
+      position: relative; 
+    }
+
+    .image-link img {
+      max-width: 200px;
+      height: auto; 
+      pointer-events: auto; 
+    }
+  </style>
+</head>
+<body>
+  <canvas id="snow"></canvas>
+  <div id="circleId" class="circle"></div>
+  <h1>Webpage.org</h1>
+  <p>The Official Webpage</p>
+  <form>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="pwd">
+  </form>
+
+  <div class="image-link">
+    <a href="https://github.com/voxnz" target="_blank">
+      <img src="C:/Users/100078236/Documents/cool.gif" alt="Link to GitHub">
+    </a>
+  </div>
+
+  <script>
+    var Snow = {
+      el: "#snow",
+      density: 10000,
+      maxHSpeed: 5,
+      minFallSpeed: 2,
+      canvas: null,
+      ctx: null,
+      particles: [],
+      mp: 1,
+      quit: false,
+      init() {
+        this.canvas = document.querySelector(this.el);
+        this.ctx = this.canvas.getContext("2d");
+        this.reset();
+        requestAnimationFrame(this.render.bind(this));
+        window.addEventListener("resize", this.reset.bind(this));
+      },
+      reset() {
+        this.w = window.innerWidth;
+        this.h = window.innerHeight;
+        this.canvas.width = this.w;
+        this.canvas.height = this.h;
+        this.particles = [];
+        this.mp = Math.ceil(this.w * this.h / this.density);
+        for (var i = 0; i < this.mp; i++) {
+          var size = Math.random() * 4 + 5;
+          this.particles.push({
+            x: Math.random() * this.w,
+            y: Math.random() * this.h,
+            w: size,
+            h: size,
+            vy: this.minFallSpeed + Math.random(),
+            vx: (Math.random() * this.maxHSpeed) - this.maxHSpeed / 2,
+            fill: "#ffffff",
+          });
+        }
+      },
+      render() {
+        this.ctx.clearRect(0, 0, this.w, this.h);
+        this.particles.forEach((p) => {
+          p.y += p.vy;
+          p.x += p.vx;
+          this.ctx.fillStyle = p.fill;
+          this.ctx.fillRect(p.x, p.y, p.w, p.h);
+          if (p.x > this.w + 5 || p.x < -5 || p.y > this.h) {
+            p.x = Math.random() * this.w;
+            p.y = -10;
+          }
+        });
+        if (this.quit) return;
+        requestAnimationFrame(this.render.bind(this));
+      },
+      destroy() {
+        this.quit = true;
+      }
+    };
+
+    Snow.init();
+
+    function AddAnimatedCircle() {
+      const circle = document.getElementById('circleId');
+      document.addEventListener('mousemove', e => {
+        requestAnimationFrame(() => {
+          circle.style.left = `${e.clientX}px`;
+          circle.style.top = `${e.clientY}px`;
+        });
+      });
+    }
+
+    AddAnimatedCircle();
+  </script>
+</body>
+</html>
