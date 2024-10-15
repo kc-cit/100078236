@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
   <style>
     body {
       background-image: url('c:\Users\100078236\Documents\960x0.webp');
@@ -21,6 +22,11 @@
       justify-content: center;
       height: 100vh; 
       position: relative; 
+    }
+
+    #logo {
+      position: absolute;
+
     }
 
     .circle {
@@ -77,7 +83,7 @@
     }
 
     .image-link {
-      margin-top: 20px;
+      margin-top: 10px;
       text-align: center;
       z-index: 25; 
       position: relative; 
@@ -88,7 +94,17 @@
       height: auto; 
       pointer-events: auto; 
     }
-   
+    
+    h1 {
+    position: relative;
+    z-index: 4; 
+}
+
+
+p {
+  position: relative;
+  z-index: 4; 
+}
 input[type=submit] {
  padding: 5px 15px;
  font-size: 13px; 
@@ -112,13 +128,47 @@ input[type=text] {
   width: 100%;
   padding: 5px 7px;
 }
+input[type=button] {
+  font-family: inherit;
+  border: none;
+  outline: 1px dotted rgb(37, 37, 37);
+  outline-offset: -3px;
+  cursor: pointer;
+  background: hsl(0deg 0% 75%);
+  box-shadow:
+    inset -1px -1px #292929,
+    inset 1px 1px #fff,
+    inset -2px -2px rgb(158, 158, 158),
+    inset 2px 2px #ffffff;
+  font-size: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  width: auto; 
+  height: auto; 
+  padding: 6px 20px;
+  position: relative;
+  right: 588px;
+  bottom: -155px;
+  z-index: 5;
+  border-radius: 2px; 
+}
+
+input[type=button]:active {
+  box-shadow:
+    inset -1px -1px #fff,
+    inset 1px 1px #292929,
+    inset -2px -2px #ffffff,
+    inset 2px 2px rgb(158, 158, 158);
+}
   </style>
 </head>
 <body>
+  <canvas id="tv-screen"></canvas>
   <canvas id="snow"></canvas>
   <div id="circleId" class="circle"></div>
   <h1>Webpage.org</h1>
   <p>The Official Webpage</p>
+
   <form name="loginform" onSubmit="return checklog();" action="secret.html" method="post">
     
     <label for="username">Username:</label>
@@ -142,17 +192,17 @@ input[type=text] {
       }
     }
   </script>
-
+<script src="script.js"></script>
   <div class="image-link">
-    <a href="https://github.com/voxnz" target="_blank">
-      <img src="C:/Users/100078236/Documents/cool.gif" alt="Link to GitHub">
+    <a href="https://github.com/voxnz" id="git" target="_blank">
+      <img src="C:/Users/100078236/Documents/red.gif" alt="Link to GitHub">
     </a>
   </div>
-
+  <input type="button" id="Button" value="click">
   <script>
     var Snow = {
       el: "#snow",
-      density: 10000,
+      density: 10200,
       maxHSpeed: 5,
       minFallSpeed: 2,
       canvas: null,
@@ -210,22 +260,38 @@ input[type=text] {
     Snow.init();
 
     function AddAnimatedCircle() {
-      const circle = document.getElementById('circleId');
-      document.addEventListener('mousemove', e => {
-        requestAnimationFrame(() => {
-          circle.style.left = `${e.clientX}px`;
-          circle.style.top = `${e.clientY}px`;
-        });
-      });
-    }
+    var button = document.getElementById("Button");
+    const circle = document.getElementById('circleId');
 
-    AddAnimatedCircle();
+    button.addEventListener('click', function(event) {
+  
+        if (circle.style.display === 'none') {
+            circle.style.display = 'block'; // Show circle
+            button.textContent = 'Hide Circle'; // Update button text
+        } else {
+            circle.style.display = 'none'; // Hide circle
+            button.textContent = 'Show Circle'; // Update button text
+        }
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (circle.style.display !== 'none') { 
+            requestAnimationFrame(() => {
+                circle.style.left = `${e.clientX}px`;
+                circle.style.top = `${e.clientY}px`;
+            });
+        }
+    });
+}
+
+AddAnimatedCircle();
   </script>
+
 <script type="module">
   import { textFlag } from "https://unpkg.com/cursor-effects@latest/dist/esm.js";
 
-  new textFlag({text: "The password is",color:["#FF6800"]});
+  new textFlag({text:"TYPE MEOW", color:["#36ECF4"]});
+
 </script>
- 
 </body>
 </html>
